@@ -4,6 +4,8 @@ package com.example.zoushi.view;
 
 import android.content.Context;
 import android.content.SyncRequest;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,9 +14,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zoushi.R;
 import com.example.zoushi.view.scrollview.MyHorizontalScrollView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.Gravity.CENTER;
 
@@ -29,6 +35,8 @@ public class TrendChartViewGroup extends RelativeLayout implements MiddleView.mi
     private MyHorizontalScrollView top_scrollview,bottom_scrollview;
     private MyScrollView left_scrollview;
     private MiddleView middleView;
+
+    private List<String> data = new ArrayList<>();
 
     public TrendChartViewGroup(Context context) {
         super(context);
@@ -66,8 +74,6 @@ public class TrendChartViewGroup extends RelativeLayout implements MiddleView.mi
         top_scrollview.setOnHorizontalScrollListener(this);
         bottom_scrollview.setOnHorizontalScrollListener(this);
         left_scrollview.setOnScrollListener(this);
-
-
     }
 
     /**
@@ -101,20 +107,36 @@ public class TrendChartViewGroup extends RelativeLayout implements MiddleView.mi
         }
         //创建底部
         for (int i = 0; i < 33; i++) {
-            TextView t = new TextView(mContext);
+            final TextView t = new TextView(mContext);
+            t.setTag("0");//未点击
             t.setTextColor(ContextCompat.getColor(mContext,R.color.white));
             t.setGravity(CENTER);
             t.setTextSize(12);
-            t.setWidth(MiddleView.cellWitch);
-            t.setHeight(MiddleView.cellHeight);
+            t.setWidth(80);
+            t.setHeight(80);
             final int random = i + 1;
             t.setText(String.valueOf(random));
             bottom_linearlayout.addView(t);
 
             t.setOnClickListener(new OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onClick(View view) {
-                    Log.e("==========",String.valueOf(random));
+                    if (t.getTag().equals("0")){
+                        t.setTag("1");//点击
+                        t.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape));
+                        Toast.makeText(mContext,"点击了"+t.getText().toString(),Toast.LENGTH_SHORT).show();
+                        data.add(t.getText().toString());
+                    }else if (t.getTag().equals("1")){
+                        //初始化
+                        t.setTag("0");
+                        t.setBackground(ContextCompat.getDrawable(mContext,R.color.test_color));
+                        Toast.makeText(mContext,"取消了"+t.getText().toString(),Toast.LENGTH_SHORT).show();
+                        data.remove(Integer.parseInt(t.getText().toString())-1);
+                    }
+                    System.out.print(data);
+                    Log.e("==============",data+"");
+
                 }
             });
         }
