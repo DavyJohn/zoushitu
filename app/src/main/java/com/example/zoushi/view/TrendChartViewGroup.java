@@ -123,19 +123,22 @@ public class TrendChartViewGroup extends RelativeLayout implements MiddleView.mi
                 @Override
                 public void onClick(View view) {
                     if (t.getTag().equals("0")){
-                        t.setTag("1");//点击
-                        t.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape));
                         Toast.makeText(mContext,"点击了"+t.getText().toString(),Toast.LENGTH_SHORT).show();
-                        data.add(t.getText().toString());
+                        if (data.size() >= 6){
+                            Toast.makeText(mContext,"超出6个红球",Toast.LENGTH_SHORT).show();
+                        }else {
+                            t.setTag("1");//点击
+                            data.add(t.getText().toString());
+                            t.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape));
+                        }
+
                     }else if (t.getTag().equals("1")){
-                        //初始化
+                        //初始化并删除list里面的这个元素
                         t.setTag("0");
                         t.setBackground(ContextCompat.getDrawable(mContext,R.color.test_color));
                         Toast.makeText(mContext,"取消了"+t.getText().toString(),Toast.LENGTH_SHORT).show();
-                        data.remove(Integer.parseInt(t.getText().toString())-1);
+                        removedata(data,t.getText().toString());
                     }
-                    System.out.print(data);
-                    Log.e("==============",data+"");
 
                 }
             });
@@ -153,6 +156,15 @@ public class TrendChartViewGroup extends RelativeLayout implements MiddleView.mi
     @Override
     public void onScroll(int scrollX, int scrollY) {
         middleView.setScrollXY(-scrollX, -scrollY);
+    }
+
+    private void removedata(List<String> list,String num){
+        for (int i=0;i<list.size();i++){
+            if (num.equals(list.get(i))){
+                list.remove(i);
+                --i;
+            }
+        }
     }
 
 }

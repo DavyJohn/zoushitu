@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ZOUSHI.iml" filepath="$PROJECT_DIR$/ZOUSHI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zoushitu.iml" filepath="$PROJECT_DIR$/zoushitu.iml" />
     </modules>
   </component>
 </project>

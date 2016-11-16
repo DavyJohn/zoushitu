@@ -172,13 +172,11 @@ public class MiddleView extends ViewGroup {
                 String data= NAME.getString("name");
                 //获取号码数组
                 JSONArray numArray = NAME.optJSONArray("data");
-                Log.e("============numArray",numArray+"");
                 for (int s = 0 ; s <numArray.length();s++){
                     String ss = (String) numArray.get(s);
                     test_data.add(ss);
                 }
                 datas.addAll(test_data);
-                System.out.print(datas);
             }
         } catch (JSONException e) {
             e.printStackTrace();
